@@ -42,4 +42,10 @@ public class PostsService {
                 .map(PostsListResponseDto::new) // map(posts -> new PostsListResponseDto(posts))와 동일. postsRepository 결과로 넘어온 Posts의 stream을 map을 통해 PostsListResponseDto로 변환 -> List로 반환
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void delete(Long id){
+        Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        postsRepository.delete(posts);
+    }
 }
